@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Blynk</title>
+  </head>
+  <body>
+    <h1>Data Blynk Sensor Kelembaban</h1>
+    <p>Kelembaban 1: <span id="kelembaban1"></span>%</p>
+    <p>Kelembaban 2: <span id="kelembaban2"></span>%</p>
+    <p>Kelembaban 3: <span id="kelembaban3"></span>%</p>
+    <p>Kelembaban 4: <span id="kelembaban4"></span>%</p>
+    <p>Rata-rata Kelembaban: <span id="rataRata"></span>%</p>
+
+    <script>
+      const authToken = "duKOpwRdT2HL9F02YhfTLh2ENI8yS5rQ";
+
+      async function fetchData(pin) {
+        const response = await fetch(`http://blynk-cloud.com/${authToken}/get/${pin}`);
+        const data = await response.json();
+        return data[0];
+      }
+
+      async function updateData() {
+        document.getElementById("kelembaban1").innerText = await fetchData("V0");
+        document.getElementById("kelembaban2").innerText = await fetchData("V1");
+        document.getElementById("kelembaban3").innerText = await fetchData("V2");
+        document.getElementById("kelembaban4").innerText = await fetchData("V3");
+        document.getElementById("rataRata").innerText = await fetchData("V4");
+      }
+
+      setInterval(updateData, 5000);
+
+      updateData();
+    </script>
+  </body>
+</html>
